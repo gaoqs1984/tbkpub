@@ -1,29 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
-		<artifactId>taobaoke-parent</artifactId>
+		<artifactId>taobaoke</artifactId>
 		<groupId>com.gaoqs.taobaoke</groupId>
 		<version>1.0.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.gaoqs.taobaoke</groupId>
-	<artifactId>taobaoke</artifactId>
+	<artifactId>taobaoke-commons-parent</artifactId>
 	<version>1.0.1</version>
 	<packaging>pom</packaging>
-	<name>taobaoke</name>
-	<description>taobaoke</description>
+	<name>taobaoke commons</name>
+	<description>taobaoke commons</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<org.apache.httpcomponents.version>4.1-alpha1</org.apache.httpcomponents.version>
 	</properties>
-
-	<modules>
-		<module>biz</module>
-		<module>commons</module>
-		<module>core</module>
-		<module>test</module>
-	</modules>
 
 	<build>
 		<plugins>
@@ -37,4 +29,8 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<modules>
+		<module>util</module>
+	</modules>
 </project>

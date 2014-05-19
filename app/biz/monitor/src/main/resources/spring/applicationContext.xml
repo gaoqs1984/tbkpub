@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- 配置数据源  使用c3p0的数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost:3306/tbk?characterEncoding=UTF-8</value>
+		</property>
+		<property name="username">
+			<value>root</value>
+		</property>
+		<property name="password">
+			<value>123</value>
+		</property>
+		<property name="maxIdle" value="10000"/>
+		<!-- 获得最大连接空间byte -->
+		<property name="maxWait" value="1000"/>
+		<!-- 获得连接的最大等待时间 -->
+		<property name="removeAbandoned" value="true"/>
+		<!-- 连接关闭时是否要清除缓存 -->
+		<property name="removeAbandonedTimeout" value="180"/>
+		<!-- 清空等待时间 -->
+		<property name="logAbandoned" value="true"/>
+		<!-- 是否输出日志 -->
+		<property name="initialSize" value="1"/>
+	</bean>
+
+	<!-- 配置SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+
+		<property name="annotatedClasses">
+			<list>
+				<value>com.gaoqs.intell.biz.monitor.model.MonitorStartModel</value>
+				<value>com.gaoqs.intell.commons.dal.dao.model.SysConfigModel</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.dbcp.validationQuery">SELECT 1</prop>
+				<prop key="current_session_context_class">thread</prop>
+
+			</props>
+		</property>
+
+	</bean>
+
+	<!--Dao -->
+	<bean id="hibernateDao" abstract="true" lazy-init="default">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="baseDao" class="com.gaoqs.intell.commons.dal.dao.impl.BaseDaoImpl"
+		parent="hibernateDao">
+	</bean>
+	
+	<bean id="sysConfigDao" class="com.gaoqs.intell.commons.dal.dao.impl.SysConfigDaoImpl"
+		parent="hibernateDao">
+	</bean>
+
+</beans>

@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<project name="com.gaoqs.parent" basedir="." default="package">
+	<property name="workspace" value="." />
+	<property name="monitor_project" value="${workspace}/app/biz/monitor/target" />
+	<property name="docin_project" value="${workspace}/app/biz/docin/target" />
+	<property name="lottery_project" value="${workspace}/app/biz/lottery/target" />
+	<property name="doc88_project" value="${workspace}/app/biz/doc88/target" />
+	<property name="wenku_project" value="${workspace}/app/biz/wenku/target" />
+	<property name="video_project" value="${workspace}/app/biz/video/target" />
+	<property name="click_project" value="${workspace}/app/biz/click/target" />
+	<property name="webspec_project" value="${workspace}/app/commons/webspec/target" />
+	<property name="search_project" value="${workspace}/app/biz/search/target" />
+	<property name="config_project" value="${workspace}/app/biz/execute/target" />
+	<property name="base_package" value="deploy/gaoqs-services" />
+	<property name="deploy_package" value="C:/intell/gaoqs-services" />
+	<property environment="env" />
+	<property name="dir.jdk6.home" value="${env.JAVA_HOME_JDK6}" />
+	<property name="dir.package.home" value="${env.AUTO_EXECUTE_HOME}" />
+
+	<!-- 打包 -->
+	<target name="package" description="copy different project 's target ">
+		<!-- 设置jdk6的相关属性 -->
+		<available property="dir.javaw.present" file="${dir.jdk6.home}/bin/javaw.exe" />
+		<fail unless="dir.javaw.present">
+		部署无法继续:
+		--------------------------------------------------------------------------------
+		未设置JAVA_HOME_JDK6环境变量, 或环境变量指向的目录不正确(${JAVA_HOME_JDK6}/bin/javaw.exe)
+		--------------------------------------------------------------------------------
+		</fail>
+
+		<available property="dir.package.present" file="${dir.package.home}" />
+		<fail unless="dir.package.present">
+		部署无法继续:
+		--------------------------------------------------------------------------------
+		未设置AUTO_EXECUTE_HOME环境变量, 或环境变量指向的目录不正确(${AUTO_EXECUTE_HOME})
+		--------------------------------------------------------------------------------
+		</fail>
+
+		<!-- 复制相关的javaw.exe成业务exe -->
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/DocinUpload.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/DocinUploadProxy.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/GaoqsServices.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/MonitorService.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/VideoUpload.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/VideoDownLoad.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/VideoStore.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/WenkuDownLoad.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/WenkuUpdateDownLoad.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/WenkuCreate.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/ThunderDownLoad.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/LotteryVote.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/LotteryDown.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/LotteryBuy.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/Doc88Upload.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/DocMarkAll.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/SearchDocsDown.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/SearchInfoDown.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/WenkuFileProcess.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/ExecConfig.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/EachDown.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/RealDown.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/ListDocs.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/LogUpload.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/DocinBatchUpload.exe" />
+		<copy file="${dir.jdk6.home}/bin/javaw.exe" tofile="${dir.jdk6.home}/bin/DocinTotalCount.exe" />
+
+		<copy todir="${dir.jdk6.home}/bin">
+			<fileset file="${base_package}/jre6/bin/**" />
+		</copy>
+
+		<mkdir dir="${dir.jdk6.home}/bin/data"/>
+		
+		<copy todir="${dir.jdk6.home}/bin/data">
+			<fileset file="${base_package}/docin_upload/data/**" />
+		</copy>
+
+		<!-- 删除部署目录 -->
+		<delete includeEmptyDirs="true">
+			<fileset dir="${deploy_package}" includes="**/**" excludes="libs/**" />
+		</delete>
+
+		<!-- 初始化目录 -->
+		<copy todir="${deploy_package}">
+			<fileset dir="${base_package}">
+				<exclude name="selenium-service/**" />
+				<exclude name="jre6/**" />
+			</fileset>
+		</copy>
+
+		<!-- docin_upload -->
+		<copy todir="${deploy_package}/docin_upload">
+			<fileset dir="${docin_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+		</copy>
+
+		<!-- lotteryVote -->
+		<copy todir="${deploy_package}/lottery">
+			<fileset dir="${lottery_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+		</copy>
+
+		<!-- doc88 -->
+		<copy todir="${deploy_package}/doc88">
+			<fileset dir="${doc88_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+		</copy>
+
+		<!-- monitor -->
+		<copy todir="${deploy_package}/monitor">
+			<fileset dir="${monitor_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+			<fileset dir="${config_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+		</copy>
+
+		<!-- wenku_down -->
+		<copy todir="${deploy_package}/wenku_down">
+			<fileset dir="${wenku_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+			<fileset file="${wenku_project}/../mask.jpg" />
+		</copy>
+
+		<!-- video -->
+		<copy todir="${deploy_package}/video_down">
+			<fileset dir="${video_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+		</copy>
+
+		<!-- webspec -->
+		<copy todir="${deploy_package}/webspec">
+			<fileset dir="${webspec_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+		</copy>
+
+		<!-- search -->
+		<copy todir="${deploy_package}/search">
+			<fileset dir="${search_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+		</copy>
+
+		<!-- click -->
+		<copy todir="${deploy_package}/click">
+			<fileset dir="${click_project}">
+				<exclude name="libs/**" />
+				<exclude name="classes/**" />
+				<exclude name="maven-archiver/**" />
+				<exclude name="test-classes/**" />
+			</fileset>
+		</copy>
+
+		<!-- 直接部署到生产目录 -->
+		<delete includeEmptyDirs="true">
+			<fileset dir="${dir.package.home}" includes="**/**" />
+		</delete>
+
+		<copy todir="${dir.package.home}">
+			<fileset dir="${deploy_package}" />
+		</copy>
+	</target>
+</project>

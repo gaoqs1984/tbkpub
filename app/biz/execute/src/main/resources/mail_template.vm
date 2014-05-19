@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<p><strong>服务器指数：</strong></p>
+<p>服务器地址：<b>$pc 　 </b>　　cpu占用：<strong>$cpuPercent</strong> 　　　内存占用：<strong>$usedStore</strong> 　　可用内存：<strong>$enableStore</strong></p>
+<hr />
+<p><strong>错误描述：</strong></p>
+<table width="90%" border="1" cellpadding="0" cellspacing="0">
+	
+  <tr>
+    <td width="68%" bgcolor="#CCCCCC">文件名称</td>
+    <td bgcolor="#CCCCCC">错误次数</td>
+  </tr>
+  #if(${errorMap.keySet().size()}>0)
+  #foreach($param in ${errorMap.keySet()})
+  <tr>
+    <td>$param</td>
+    <td>${errorMap.get($param)}</td>
+  </tr>
+  #end
+  #else
+	 <tr>
+    <td colspan="2">所有文件正常...</td>
+  </tr>
+	#end
+</table>
+<hr>
+<p><strong>目录文档：</strong></p>
+<table width="90%" border="1" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="68%" bgcolor="#CCCCCC">目录名称</td>
+    <td bgcolor="#CCCCCC">文档数量</td>
+  </tr>  
+  #if(${fileCountsMap.keySet().size()}>0)
+  #foreach($param in ${fileCountsMap.keySet()})
+  <tr>
+    <td>$param</td>
+    <td>${fileCountsMap.get($param)}</td>
+  </tr>
+  #end
+  #else
+	 <tr>
+    <td colspan="2">没有需要统计的文件目录...</td>
+  </tr>
+	#end
+  
+</table>
+<hr />
+<p><strong>执行程序：</strong></p>
+<table width="90%" border="1" cellpadding="0" cellspacing="0">
+  <tr bgcolor="#CCCCCC">
+    <td width="22%">监听exe</td>
+    <td width="34%">执行路径</td>
+    <td width="5%">类型</td>
+    <td width="23%">描述</td>
+    <td width="8%">重启间隔</td>
+    <td width="8%">等待时间</td>
+  </tr>
+  #if($modelList.size()>0)
+  #foreach($obj in $modelList)
+  <tr>
+    <td>$!obj.checkExe</td>
+    <td>$!obj.startPath</td>
+    <td>$!obj.monitorType</td>
+    <td>$!obj.description</td>
+    <td>$!obj.restartTime</td>
+    <td>$!obj.waitTime</td>
+  </tr>
+  #end
+  #else
+	 <tr>
+    <td colspan="8">本机未开启任何执行程序...</td>
+  </tr>
+	#end
+  
+</table>
+<hr />
+<p><strong>进程信息：</strong>(共$totalThread)</p>
+<table width="90%" border="1" cellpadding="0" cellspacing="0">
+  <tr bgcolor="#CCCCCC">
+    <td>进程名称</td>
+    <td>PID</td>
+    <td>会话名</td>
+    <td>会话#</td>
+    <td>内存使用</td>
+  </tr>
+  #if($pidList.size()>0)
+#foreach($obj in $pidList)
+  <tr>
+    <td>$!obj.name</td>
+    <td>$!obj.pid</td>
+    <td>$!obj.huihua</td>
+    <td>$!obj.huihuaSharp</td>
+    <td>$!obj.storeUse</td>
+  </tr>
+#end
+#else
+  <tr>
+    <td colspan="2">未统计到系统的进程信息...</td>
+  </tr>
+	#end
+</table>
+<hr />
+<p>服务器地址：<b>$pc </b>　创建日期：$date　[great 2013!] </p>
+</body>
+</html>
