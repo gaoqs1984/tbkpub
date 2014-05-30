@@ -1,7 +1,7 @@
 @echo off
 
 echo -------------------------------------------------------------------------
-echo Gaoqs Services Build/Config/Deploy Script for Win32
+echo Gaoqs Services Build/Config/Deploy Script for Win32 System
 echo -------------------------------------------------------------------------
 
 setlocal
